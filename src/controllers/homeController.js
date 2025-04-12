@@ -1,5 +1,9 @@
 const handleHelloWorld = (req, reply) => {
-    reply.send("Hello World");
+    const users = [
+        { name: "Luan", age: 22 },
+        { name: "Nhi", age: 21 }
+    ];
+    reply.render('homeView.ejs', { users });
 };
 
 module.exports = {
