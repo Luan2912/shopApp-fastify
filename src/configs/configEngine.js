@@ -7,11 +7,12 @@ const configEngine = async (fastify) => {
   // Cấu hình view engine
   fastify.register(fastifyView, {
     engine: {
-      ejs: ejs,
+      ejs: ejs
     },
     root: path.join(__dirname, "../views"),
     propertyName: "render",
     viewExt: "ejs",
+    layout: ''
   });
 
   // Cấu hình static file

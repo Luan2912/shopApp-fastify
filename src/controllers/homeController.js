@@ -1,11 +1,9 @@
-const handleHelloWorld = (req, reply) => {
-    const users = [
-        { name: "Luan", age: 22 },
-        { name: "Nhi", age: 21 }
-    ];
-    reply.render('homeView.ejs', { users });
+const handleHomePage = (req, reply) => {
+
+    reply.render('homeView.ejs');
+    // reply.render("registerView.ejs");
 };
 
 module.exports = {
-    handleHelloWorld
+    handleHomePage
 };

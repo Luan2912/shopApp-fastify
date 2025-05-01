@@ -20,13 +20,10 @@ shopApp.register(require('@fastify/mongodb'), {
     request.db = shopApp.mongo.db;
   });
 
-  // Đảm bảo plugin @fastify/formbody được đăng ký sau khi MongoDB đã sẵn sàng
   shopApp.register(require('@fastify/formbody'));
 
-  // Đăng ký các route với MongoDB và các logic cần thiết
   shopApp.register(require('./routes/web'));
 
-  // Đăng ký các cấu hình khác
   configEngine(shopApp);
 });
 

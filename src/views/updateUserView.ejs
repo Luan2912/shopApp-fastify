@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Update User</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h1 class="text-center mb-4">Update User</h1>
+
+            <% if (typeof message !== 'undefined') { %>
+                <div class="alert alert-<%= type || 'info' %> text-center">
+                    <%= message %>
+                </div>
+            <% } %>
+
+            <% if (user) { %>
+                <form method="POST" action="/user/update-user/<%= user._id %>">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input 
+                            type="email" 
+                            class="form-control" 
+                            id="email" 
+                            name="email" 
+                            value="<%= user.email %>" 
+                            required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input 
+                            type="text" 
+                            class="form-control" 
+                            id="username" 
+                            name="username" 
+                            value="<%= user.username %>" 
+                            required>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary">Update</button>
+                        <a href="/user" class="btn btn-secondary">Back to List</a>
+                    </div>
+                </form>
+            <% } else { %>
+                <div class="alert alert-warning text-center">
+                    Không tìm thấy người dùng để cập nhật.
+                </div>
+                <div class="text-center mt-3">
+                    <a href="/user" class="btn btn-secondary">Quay lại danh sách</a>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+</body>
+</html>

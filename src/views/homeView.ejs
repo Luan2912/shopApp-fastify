@@ -1,10 +1,186 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BookNest - Nhà sách trực tuyến</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    *img{
+      max-width: 100%;
+    }
+    .navbar {
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin: 10px;
+    }
+
+    .navbar-brand i {
+      margin-right: 8px;
+    }
+
+    .nav-link:hover {
+      text-decoration: underline;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0d6efd, #3d8bfd);
+      color: white;
+      padding: 60px 20px;
+      border-radius: 12px;
+      margin: 20px 10px;
+      text-align: center;
+    }
+
+    .book-card img {
+      height: 200px;
+      object-fit: cover;
+    }
+
+    footer {
+      background-color: #0d6efd;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+  </style>
 </head>
 <body>
-    <h1>Welcome</h1>
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+  
+      <!-- Logo -->
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+        <i class="fas fa-book me-2"></i> BookNest
+      </a>
+  
+      <!-- Nút toggle menu trên mobile -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+              data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" 
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <!-- Nội dung nav -->
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <!-- Menu trái -->
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">Trang chủ</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" 
+               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Danh mục sách
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="#">Tiểu thuyết</a></li>
+              <li><a class="dropdown-item" href="#">Kỹ năng sống</a></li>
+              <li><a class="dropdown-item" href="#">Thiếu nhi</a></li>
+              <li><a class="dropdown-item" href="#">Kinh doanh</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Tất cả sách</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Giới thiệu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Liên hệ</a>
+          </li>
+        </ul>
+  
+        <!-- Form tìm kiếm + giỏ hàng + đăng nhập -->
+        <div class="d-flex align-items-center gap-3">
+          <form class="d-flex" role="search">
+            <input class="form-control form-control-sm me-2" type="search" placeholder="Tìm sách..." aria-label="Search">
+            <button class="btn btn-light btn-sm" type="submit">Tìm</button>
+          </form>
+  
+          <a href="#" class="text-white position-relative">
+            <i class="fas fa-shopping-cart fs-5"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              3
+            </span>
+          </a>
+  
+          <a href="#" class="btn btn-outline-light btn-sm">Đăng nhập</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+
+<!-- HERO BANNER -->
+<section class="hero">
+  <div class="container">
+    <h1 class="display-5">Chào mừng đến với <strong>BookNest</strong> 📚</h1>
+    <p class="lead">Khám phá hàng ngàn đầu sách hay, giá tốt và giao hàng tận nơi!</p>
+    <a href="#" class="btn btn-light btn-lg mt-3">Khám phá ngay</a>
+  </div>
+</section>
+
+<!-- DANH SÁCH SÁCH -->
+<div class="container mt-5">
+  <h2 class="mb-4">Sách nổi bật</h2>
+  <div class="row g-4">
+    <!-- Sách 1 -->
+    <div class="col-md-4">
+      <div class="card book-card">
+        <div class="img-book">
+          <img src="../public/tải xuống.jpg" class="card-img-top" alt="Đắc nhân tâm">
+        </div>
+        
+        <div class="card-body">
+          <h5 class="card-title">Đắc Nhân Tâm</h5>
+          <p class="card-text">Cuốn sách giúp bạn hiểu cách tạo dựng quan hệ và ảnh hưởng tích cực.</p>
+          <a href="#" class="btn btn-primary">Xem chi tiết</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sách 2 -->
+    <div class="col-md-4">
+      <div class="card book-card">
+        <img src="https://via.placeholder.com/300x200?text=Sach+2" class="card-img-top" alt="Sách 2">
+        <div class="card-body">
+          <h5 class="card-title">Nhà Giả Kim</h5>
+          <p class="card-text">Một hành trình kỳ diệu đi tìm kho báu và khám phá chính bản thân mình.</p>
+          <a href="#" class="btn btn-primary">Xem chi tiết</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sách 3 -->
+    <div class="col-md-4">
+      <div class="card book-card">
+        <img src="https://via.placeholder.com/300x200?text=Sach+3" class="card-img-top" alt="Sách 3">
+        <div class="card-body">
+          <h5 class="card-title">7 Thói Quen Hiệu Quả</h5>
+          <p class="card-text">Tư duy thành công và phát triển cá nhân qua 7 nguyên tắc thiết yếu.</p>
+          <a href="#" class="btn btn-primary">Xem chi tiết</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <p>&copy; 2025 BookNest. All rights reserved.</p>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
