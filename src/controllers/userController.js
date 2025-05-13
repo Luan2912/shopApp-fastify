@@ -1,13 +1,18 @@
+const { render } = require('ejs');
 const userService = require('../services/userService');
+const imageUpload = require('../middlewares/imageUpload');
 
 const handleUserPage = async (request, reply) => {
     try {
         const db = request.db;
         const users = await userService.getAllUsers(db); // Lấy danh sách người dùng từ DB
-        return reply.render('userView', {users}); // Render trang userView và truyền danh sách người dùng
+        return reply.render('pages/userView', {users : users,
+            title: 'Manage-User'
+        }); // Render trang userView và truyền danh sách người dùng
     } catch (error) {
         console.error('>>> Lỗi khi lấy danh sách người dùng:', error);
-        return reply.render('userView', {
+        return reply.render('pages/userView', {
+            title: 'Manage-User',
             users: [],
             message: 'Có lỗi xảy ra khi tải danh sách người dùng!',
             type: 'danger'
@@ -15,21 +20,81 @@ const handleUserPage = async (request, reply) => {
     }
 };
 
+const handleCreateUserPage = async (request, reply) =>{
+    try {
+        return reply.render('pages/createUserView',{
+            title: 'Create-User'
+
+        })
+    } catch (error) {
+        return reply.send({
+            message: 'Có lỗi xảy ra khi tạo trang tạo người dùng!',
+        })
+    }
+}
+
+// const handleCreateUser = async (request, reply) => {
+//     try {
+//         //  Kiểm tra xem body có dữ liệu không
+//         const { email, username, password } = request.body;
+//         const db = request.db;
+//         console.log('Request Body:', request.body); 
+
+//         let avatarPath = null;
+//         if (request.files && request.files.avatar) {
+//             avatarPath = await imageUpload(request, reply, 'avatar');
+//         }
+
+//         await userService.createNewUser(db, { email, username, password,avatarPath });
+//         return reply.redirect('/user');
+//     } catch (error) {
+//         console.error('>>> Lỗi khi tạo người dùng:', error);
+//         return reply.render('pages/createUserView', {
+//             message: 'Lỗi khi tạo người dùng.',
+//             type: 'danger',
+//             title: 'Create-User'
+//         });
+//     }
+// };
+
+
 const handleCreateUser = async (request, reply) => {
     try {
-        const {email, username, password} = request.body;
-        const db = request.db;
+        const parts = request.parts();
+        const formData = {};
 
-        const result = await userService.createNewUser(db, {email, username, password});
-        return reply.redirect('/user'); // Sau khi tạo xong, redirect về trang /user để hiển thị lại danh sách người dùng
+        for await (const part of parts) {
+            if (part.file) {
+                formData.avatar = await imageUpload(part, 'avatar-upload');
+            } else {
+                formData[part.fieldname] = part.value;
+            }
+        }
+
+        const { email, username, password } = formData;
+        if (!email || !username || !password) {
+            return reply.status(400).send('Missing required fields');
+        }
+
+        const db = request.db;
+        await userService.createNewUser(db, { 
+            email, 
+            username, 
+            password, 
+            avatarPath: formData.avatar || null
+        });
+
+        return reply.redirect('/user');
     } catch (error) {
         console.error('>>> Lỗi khi tạo người dùng:', error);
-        return reply.render('userView', {
+        return reply.render('pages/createUserView', {
             message: 'Lỗi khi tạo người dùng.',
-            type: 'danger'
+            type: 'danger',
+            title: 'Create-User'
         });
     }
 };
+
 
 // Hiển thị form cập nhật người dùng
 const handleUpdateUserPage = async (request, reply) => {
@@ -39,17 +104,22 @@ const handleUpdateUserPage = async (request, reply) => {
         const user = await userService.getUserById(db, userId);
 
         if (!user) {
-            return reply.render("updateUserView", {
+            return reply.render("pages/updateUserView", {
+                title: 'Edit-User',
                 user: null,
                 message: 'Người dùng không tồn tại.',
                 type: 'warning'
             });
         }
 
-        return reply.render('updateUserView', {user});
+        return reply.render('pages/updateUserView', {
+            title: 'Edit-User',
+            user: user
+        });
     } catch (error) {
         console.error('>>> Lỗi khi hiển thị form cập nhật:', error);
-        return reply.render('updateUserView', {
+        return reply.render('pages/updateUserView', {
+            title: 'Edit-User',
             user: null,
             message: 'Lỗi khi hiển thị form cập nhật.',
             type: 'danger'
@@ -66,7 +136,8 @@ const handleUpdateUser = async (request, reply) => {
 
         const existingUser = await userService.getUserById(db, userId);
         if (!existingUser) {
-            return reply.render('updateUserView', {
+            return reply.render('pages/updateUserView', {
+                title: 'Edit-User',
                 user: null,
                 message: 'Người dùng không tồn tại hoặc đã bị xóa.',
                 type: 'danger'
@@ -77,7 +148,8 @@ const handleUpdateUser = async (request, reply) => {
         return reply.redirect('/user');
     } catch (error) {
         console.error('>>> Lỗi khi cập nhật người dùng:', error);
-        return reply.render('updateUserView', {
+        return reply.render('pages/updateUserView', {
+            title: 'Edit-User',
             user: null,
             message: 'Lỗi khi cập nhật người dùng.',
             type: 'danger'
@@ -110,5 +182,6 @@ module.exports = {
     handleCreateUser,
     handleUpdateUserPage,
     handleUpdateUser,
-    handleDeleteUser
+    handleDeleteUser,
+    handleCreateUserPage
 };

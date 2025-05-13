@@ -1,9 +1,10 @@
-const handleHomePage = (req, reply) => {
 
-    reply.render('homeView.ejs');
-    // reply.render("registerView.ejs");
+const handleHomePage = async (req, reply) => {
+  return reply.render("pages/homeView", {
+    title: "BookNest - Nhà sách trực tuyến",
+  });
 };
 
 module.exports = {
-    handleHomePage
+  handleHomePage
 };

@@ -1,0 +1,66 @@
+.navbar {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  margin: 10px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* Đổi màu nền khi cuộn */
+.navbar.scrolled {
+  background-color: rgba(40, 167, 69, 0.9);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Logo - Căn giữa icon và text */
+.navbar-brand i {
+  margin-right: 8px;
+  font-size: 1.25rem;
+}
+
+/* Hiệu ứng hover cho liên kết */
+.nav-link {
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+  color: #e0e0e0;
+}
+
+/* Tùy chỉnh dropdown */
+.dropdown-menu {
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.dropdown-item:hover {
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+/* Form tìm kiếm - làm nổi bật */
+form.search-form input {
+  border: 1px solid #28a745;
+  border-radius: 20px;
+  padding: 0.4rem 0.8rem;
+  transition: all 0.3s;
+}
+
+form.search-form input:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(40, 167, 69, 0.5);
+}
+
+form.search-form button {
+  border-radius: 20px;
+}
+
+/* Giỏ hàng */
+.position-relative i {
+  transition: transform 0.3s;
+}
+
+.position-relative:hover i {
+  transform: scale(1.1);
+}
+

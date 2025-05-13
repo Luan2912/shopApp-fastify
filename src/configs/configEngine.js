@@ -12,7 +12,7 @@ const configEngine = async (fastify) => {
     root: path.join(__dirname, "../views"),
     propertyName: "render",
     viewExt: "ejs",
-    layout: ''
+    layout: "layout"
   });
 
   // Cấu hình static file

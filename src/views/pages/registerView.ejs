@@ -1,48 +1,8 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Đăng Ký - BookNest</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  <style>
-    body {
-      background: linear-gradient(to right, #f0f8ff, #e6f0ff);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
 
-    .register-card {
-      max-width: 500px;
-      margin: auto;
-      margin-top: 60px;
-      padding: 35px;
-      border-radius: 20px;
-      box-shadow: 0 0 25px rgba(0,0,0,0.08);
-      background-color: #ffffff;
-    }
-
-    .register-card .form-control {
-      border-radius: 10px;
-    }
-
-    .register-card .btn-primary {
-      border-radius: 10px;
-    }
-  </style>
-</head>
 <body>
+  <link rel="stylesheet" href="/public/css/register.css">
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
-    <div class="container">
-      <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
-        <i class="fas fa-book me-2"></i> BookNest
-      </a>
-    </div>
-  </nav>
+  <%- include('partials/nav') %>
 
   <!-- Register Card -->
   <div class="register-card mb-5">
@@ -81,7 +41,7 @@
     </div>
   </div>
 
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <%- include('partials/footer') %>
+
 </body>
-</html>
+

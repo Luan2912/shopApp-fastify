@@ -1,0 +1,44 @@
+
+.create-user {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.create-user h2 {
+    font-weight: 600;
+    margin: 10px auto;
+    text-align: center;
+
+}
+
+.create-user form input,
+.create-user form button {
+    margin-bottom: 15px;
+    transition: all 0.3s;
+}
+
+.create-user form button {
+    background-color: #28a745;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+}
+
+.create-user form button:hover {
+    background-color: #218838;
+    transform: scale(1.05);
+}
+
+.create-user form .form-label {
+    font-weight: 500;
+}
+
+.back-to-list{
+margin-bottom: 15px;
+padding: 10px 20px;
+}
+

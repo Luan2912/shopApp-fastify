@@ -1,0 +1,66 @@
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<link rel="stylesheet" href="/public/css/home.css">
+
+<%- include('partials/nav')%>
+
+<!-- HERO BANNER -->
+<section class="hero">
+  <div class="container">
+    <h1 class="display-5">Chào mừng đến với <strong>BookNest</strong> 📚</h1>
+    <p class="lead">Khám phá hàng ngàn đầu sách hay, giá tốt và giao hàng tận nơi!</p>
+    <a href="#" class="btn btn-light btn-lg mt-3">Khám phá ngay</a>
+  </div>
+</section>
+
+<!-- DANH SÁCH SÁCH -->
+<div class="container mt-5">
+  <h2 class="mb-4">Sách nổi bật</h2>
+  <div class="row g-4">
+    <!-- Sách 1 -->
+    <div class="col-12 col-md-4">
+      <div class="card book-card">
+        <div class="img-book">
+          <img src="../public/tải xuống.jpg" class="card-img-top" alt="Đắc nhân tâm">
+        </div>
+        
+        <div class="card-body">
+          <h5 class="card-title">Đắc Nhân Tâm</h5>
+          <p class="card-text">Cuốn sách giúp bạn hiểu cách tạo dựng quan hệ và ảnh hưởng tích cực.</p>
+          <a href="#" class="btn btn-primary">Xem chi tiết</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sách 2 -->
+    <div class="col-12 col-md-4">
+      <div class="card book-card">
+        <img src="https://via.placeholder.com/300x200?text=Sach+2" class="card-img-top" alt="Sách 2">
+        <div class="card-body">
+          <h5 class="card-title">Nhà Giả Kim</h5>
+          <p class="card-text">Một hành trình kỳ diệu đi tìm kho báu và khám phá chính bản thân mình.</p>
+          <a href="#" class="btn btn-primary">Xem chi tiết</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sách 3 -->
+    <div class="col-12 col-md-4">
+      <div class="card book-card">
+        <img src="https://via.placeholder.com/300x200?text=Sach+3" class="card-img-top" alt="Sách 3">
+        <div class="card-body">
+          <h5 class="card-title">7 Thói Quen Hiệu Quả</h5>
+          <p class="card-text">Tư duy thành công và phát triển cá nhân qua 7 nguyên tắc thiết yếu.</p>
+          <a href="#" class="btn btn-primary">Xem chi tiết</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer')%>
+
+
+
+

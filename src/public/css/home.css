@@ -1,0 +1,14 @@
+.hero {
+    background: linear-gradient(135deg, #0d6efd, #3d8bfd);
+    color: white;
+    padding: 60px 20px;
+    border-radius: 12px;
+    margin: 20px 10px;
+    text-align: center;
+  }
+  
+  .book-card img {
+    height: 200px;
+    object-fit: cover;
+  }
+  

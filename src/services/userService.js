@@ -2,9 +2,9 @@ const { ObjectId } = require("mongodb");
 
 const createNewUser = async (db, userData) => {
     try {
-        const {email, username, password} = userData;
+        const {email, username, password, avatarPath} = userData;
         const userCollection = db.collection('users');
-        const result = await userCollection.insertOne({email, username, password});
+        const result = await userCollection.insertOne({email, username, password,avatarPath});
 
         return {success: true, userId: result.insertedId};
     } catch (err) {

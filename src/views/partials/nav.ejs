@@ -1,0 +1,67 @@
+
+<link rel="stylesheet" href="/public/css/nav.css">
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+  
+      <!-- Logo -->
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+        <i class="fas fa-book me-2"></i> BookNest
+      </a>
+  
+      <!-- Nút toggle menu trên mobile -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+              data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" 
+              aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <!-- Nội dung nav -->
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <!-- Menu trái -->
+        <ul class="navbar-nav mx-auto">
+          <li class="nav-item">
+            <a class="nav-link active" href="#">Trang chủ</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" 
+               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Danh mục sách
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+              <li><a class="dropdown-item" href="#">Tiểu thuyết</a></li>
+              <li><a class="dropdown-item" href="#">Kỹ năng sống</a></li>
+              <li><a class="dropdown-item" href="#">Thiếu nhi</a></li>
+              <li><a class="dropdown-item" href="#">Kinh doanh</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Tất cả sách</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Giới thiệu</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Liên hệ</a>
+          </li>
+        </ul>
+  
+        <!-- Form tìm kiếm + giỏ hàng + đăng nhập -->
+        <div class="d-flex align-items-center gap-3">
+          <form class="d-flex" role="search">
+            <input class="form-control form-control-sm me-2" type="search" placeholder="Tìm sách..." aria-label="Search">
+            <button class="btn btn-light btn-sm" type="submit">Tìm</button>
+          </form>
+  
+          <a href="#" class="text-white position-relative">
+            <i class="fas fa-shopping-cart fs-5"></i>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              3
+            </span>
+          </a>
+  
+          <a href="#" class="btn btn-outline-light btn-sm">Đăng nhập</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+  

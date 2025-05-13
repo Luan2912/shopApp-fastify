@@ -1,0 +1,14 @@
+.navbar {
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 10px;
+  }
+  
+  .navbar-brand i {
+    margin-right: 8px;
+  }
+  
+  .nav-link:hover {
+    text-decoration: underline;
+  }
+  

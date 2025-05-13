@@ -1,0 +1,31 @@
+
+body {
+
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-card {
+  max-width: 420px;
+  margin: auto;
+  margin-top: 80px;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  background-color: #ffffff;
+}
+
+.login-card .form-control {
+  border-radius: 10px;
+}
+
+.login-card .btn-primary {
+  border-radius: 10px;
+}
+
+.logo-text {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #0d6efd;
+}

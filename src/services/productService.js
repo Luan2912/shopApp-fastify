@@ -1,27 +1,37 @@
-const { ObjectId } = require("mongodb");
+const {ObjectId} = require("mongodb");
 
-const createNewProduct = async(db, productData ) => {
+const createNewProduct = async (db, productData) => {
     try {
         const {nameProduct, price, category} = productData;
         const productCollection = db.collection('products');
-        const result = await productCollection.insertOne({nameProduct, price, category})
+        const result = await productCollection.insertOne(
+            {nameProduct, price, category}
+        )
 
-        return {
-            success: true,
-            productId: result.insertedId
-        }
+        return {success: true, productId: result.insertedId}
 
     } catch (error) {
         console.error(">>>Lỗi khi lưu sản phẩm: ", error);
         throw new Error('Database insert failed');
-        
+
     }
 }
 
-const getAllProducts = async(db) =>{
+const getProductById = async (db, ProductId) => {
     try {
         const productCollection = db.collection('products');
-        const result = await productCollection.find().toArray();
+        return await productCollection.findOne({_id: new ObjectId(ProductId)})
+    } catch (error) {
+        console.error(">>>Lỗi khi tìm kiếm sản phẩm; ", error)
+    }
+}
+
+const getAllProducts = async (db) => {
+    try {
+        const productCollection = db.collection('products');
+        const result = await productCollection
+            .find()
+            .toArray();
 
         return result;
     } catch (error) {
@@ -31,7 +41,38 @@ const getAllProducts = async(db) =>{
 
 }
 
+const updateProduct = async (db, productId, dataProduct) => {
+    try {
+
+        const productCollection = db.collection('products');
+        const updateData = {
+            price: dataProduct.price,
+            category: dataProduct.category,
+            updatedAt: new Date()
+        };
+
+        return await productCollection.updateOne(
+            { _id: new ObjectId(productId)},
+            {$set: updateData})
+    } catch (error) {
+        console.error(">>>Lỗi update sản phẩm: ", error)
+}
+}
+
+const deleteProduct = async(db, productId)=>{
+    try {
+        const productCollection = db.collection('products');
+        return await productCollection.deleteOne({_id: new ObjectId(productId)})
+    } catch (error) {
+        console.error(">>>Lỗi khi xóa sản phẩm: ", error)
+    }
+
+}
+
 module.exports = {
     createNewProduct,
-    getAllProducts
+    getAllProducts,
+    getProductById,
+    updateProduct,
+    deleteProduct
 }
