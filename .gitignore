@@ -37,4 +37,6 @@ coverage/
 
 # MongoDB local DB dump
 dump/
-    
+
+# Bỏ qua thư mục upload ảnh
+/public/uploads/

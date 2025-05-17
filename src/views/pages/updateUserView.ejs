@@ -1,8 +1,29 @@
-
-<div class="container mt-5">
+<link rel="stylesheet" href="/public/css/profile-user.css">
+<div class="container mb-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <h1 class="text-center mb-4">Update User</h1>
+        <div class="col-md-10">
+            <h1 class="text-center mb-4">Profile User</h1>
+
+            <!-- Avatar User -->
+            <% if (user && user.avatarPath) { %>
+                <div class="text-center mb-4">
+                    <img
+                        src="/public/<%= user.avatarPath %>"
+                        alt="User Avatar"
+                        class="rounded-circle"
+                        width="150"
+                        height="150">
+                </div>
+            <% } else { %>
+                <div class="text-center mb-4">
+                    <img
+                        src="/public/uploads/avatar-upload/default-avatar-profile.png"
+                        alt="Default Avatar"
+                        class="rounded-circle"
+                        width="150"
+                        height="150">
+                </div>
+            <% } %>
 
             <% if (typeof message !== 'undefined') { %>
                 <div class="alert alert-<%= type || 'info' %> text-center">
@@ -11,27 +32,48 @@
             <% } %>
 
             <% if (user) { %>
-                <form method="POST" action="/user/update-user/<%= user._id %>">
+                <form
+                    method="POST"
+                    action="/user/profile-user/<%= user._id %>"
+                    enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input 
-                            type="email" 
-                            class="form-control" 
-                            id="email" 
-                            name="email" 
-                            value="<%= user.email %>" 
-                            required>
+                        <input
+                            type="email"
+                            class="form-control"
+                            id="email"
+                            name="email"
+                            value="<%= user.email %>"
+                            required="required">
                     </div>
 
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input 
-                            type="text" 
-                            class="form-control" 
-                            id="username" 
-                            name="username" 
-                            value="<%= user.username %>" 
-                            required>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="username"
+                            name="username"
+                            value="<%= user.username %>"
+                            required="required">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            name="password"
+                            placeholder="Leave blank if not changing">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Avatar</label>
+                        <div class="custom-file-upload-wrapper">
+                            <label for="avatar" class="custom-file-upload">Chọn ảnh đại diện</label>
+                            <input type="file" id="avatar" name="avatar" accept="image/*">
+                        </div>
                     </div>
 
                     <div class="d-flex justify-content-between">
@@ -50,4 +92,3 @@
         </div>
     </div>
 </div>
-

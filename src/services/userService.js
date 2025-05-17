@@ -1,5 +1,8 @@
 const { ObjectId } = require("mongodb");
 
+const fs = require('fs');
+const path = require('path');
+
 const createNewUser = async (db, userData) => {
     try {
         const {email, username, password, avatarPath} = userData;
@@ -74,6 +77,29 @@ const deleteUser= async(db,userID) =>{
 
 
 
+const deleteAvatar = (avatarPath) => {
+    try {
+        if (avatarPath) {
+            const filePath = path.join(__dirname, '..', 'public', avatarPath);
+            if (fs.existsSync(filePath)) {
+
+                fs.unlinkSync(filePath); // Xóa tệp ảnh
+                console.log(`Avatar deleted: ${filePath}`);
+                return {avatarPath: filePath, message: "Xóa avatar thành công."};
+            } else {
+                console.log(`Avatar không tồn tại: ${filePath}`);
+            }
+        }
+
+    } catch (error) {
+        console.error('>>> Lỗi xóa avatar người dùng: ', error);
+        throw error;
+    }
+};
+
+
+
+
 
 
 module.exports = {
@@ -81,5 +107,6 @@ module.exports = {
     getAllUsers,
     getUserById,
     updateUser,
-    deleteUser
+    deleteUser, 
+    deleteAvatar
 };

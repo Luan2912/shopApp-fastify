@@ -33,29 +33,7 @@ const handleCreateUserPage = async (request, reply) =>{
     }
 }
 
-// const handleCreateUser = async (request, reply) => {
-//     try {
-//         //  Kiểm tra xem body có dữ liệu không
-//         const { email, username, password } = request.body;
-//         const db = request.db;
-//         console.log('Request Body:', request.body); 
 
-//         let avatarPath = null;
-//         if (request.files && request.files.avatar) {
-//             avatarPath = await imageUpload(request, reply, 'avatar');
-//         }
-
-//         await userService.createNewUser(db, { email, username, password,avatarPath });
-//         return reply.redirect('/user');
-//     } catch (error) {
-//         console.error('>>> Lỗi khi tạo người dùng:', error);
-//         return reply.render('pages/createUserView', {
-//             message: 'Lỗi khi tạo người dùng.',
-//             type: 'danger',
-//             title: 'Create-User'
-//         });
-//     }
-// };
 
 
 const handleCreateUser = async (request, reply) => {
@@ -64,8 +42,13 @@ const handleCreateUser = async (request, reply) => {
         const formData = {};
 
         for await (const part of parts) {
-            if (part.file) {
-                formData.avatar = await imageUpload(part, 'avatar-upload');
+             if (part.file && part.filename) {
+                try {
+                    formData.avatar = await imageUpload(part, 'avatar-upload');
+                } catch (uploadError) {
+                    console.error('>>> Lỗi khi upload ảnh:', uploadError);
+                    return reply.status(400).send(uploadError.message);
+                }
             } else {
                 formData[part.fieldname] = part.value;
             }
@@ -105,7 +88,7 @@ const handleUpdateUserPage = async (request, reply) => {
 
         if (!user) {
             return reply.render("pages/updateUserView", {
-                title: 'Edit-User',
+                title: 'Profile User',
                 user: null,
                 message: 'Người dùng không tồn tại.',
                 type: 'warning'
@@ -113,7 +96,7 @@ const handleUpdateUserPage = async (request, reply) => {
         }
 
         return reply.render('pages/updateUserView', {
-            title: 'Edit-User',
+            title: 'Profile User',
             user: user
         });
     } catch (error) {
@@ -137,7 +120,7 @@ const handleUpdateUser = async (request, reply) => {
         const existingUser = await userService.getUserById(db, userId);
         if (!existingUser) {
             return reply.render('pages/updateUserView', {
-                title: 'Edit-User',
+                title: 'Profile User',
                 user: null,
                 message: 'Người dùng không tồn tại hoặc đã bị xóa.',
                 type: 'danger'
@@ -149,7 +132,7 @@ const handleUpdateUser = async (request, reply) => {
     } catch (error) {
         console.error('>>> Lỗi khi cập nhật người dùng:', error);
         return reply.render('pages/updateUserView', {
-            title: 'Edit-User',
+            title: 'Profile User',
             user: null,
             message: 'Lỗi khi cập nhật người dùng.',
             type: 'danger'
@@ -169,6 +152,10 @@ const handleDeleteUser = async (req, rep) => {
             );
         }
 
+        
+        const result = userService.deleteAvatar(user.avatarPath);
+
+        console.log(result)
         await userService.deleteUser(db, userId);
         return rep.redirect('/user');
     } catch (error) {

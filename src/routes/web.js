@@ -9,8 +9,8 @@ const webRoutes = async (fastify) => {
     fastify.get('/user', userController.handleUserPage); 
     fastify.get('/user/create-user', userController.handleCreateUserPage); 
     fastify.post('/user/create-user', userController.handleCreateUser);
-    fastify.get('/user/update-user/:id', userController.handleUpdateUserPage);
-    fastify.post('/user/update-user/:id', userController.handleUpdateUser);
+    fastify.get('/user/profile-user/:id', userController.handleUpdateUserPage);
+    fastify.post('/user/profile-user/:id', userController.handleUpdateUser);
     fastify.post('/user/delete-user/:id', userController.handleDeleteUser)
 
     fastify.get('/manage-product', productController.handleManageProductPage);
