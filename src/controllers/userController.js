@@ -1,24 +1,31 @@
 const { render } = require('ejs');
 const userService = require('../services/userService');
 const imageUpload = require('../middlewares/imageUpload');
+const querystring = require('querystring');
+
 
 const handleUserPage = async (request, reply) => {
     try {
-        const db = request.db;
-        const users = await userService.getAllUsers(db); // Lấy danh sách người dùng từ DB
-        return reply.render('pages/userView', {users : users,
-            title: 'Manage-User'
-        }); // Render trang userView và truyền danh sách người dùng
+        const { users, pagination } = await userService.getUsers(request);
+        return reply.render('pages/userView', {
+            title: 'Manage-User',
+            users,
+            pagination,
+            query: request.query,
+        }
+    );
     } catch (error) {
         console.error('>>> Lỗi khi lấy danh sách người dùng:', error);
         return reply.render('pages/userView', {
             title: 'Manage-User',
             users: [],
+            pagination: {},
             message: 'Có lỗi xảy ra khi tải danh sách người dùng!',
             type: 'danger'
         });
     }
 };
+
 
 const handleCreateUserPage = async (request, reply) =>{
     try {
@@ -115,20 +122,35 @@ const handleUpdateUser = async (request, reply) => {
     try {
         const db = request.db;
         const userId = request.params.id;
-        const {email, username} = request.body;
-
-        const existingUser = await userService.getUserById(db, userId);
-        if (!existingUser) {
-            return reply.render('pages/updateUserView', {
-                title: 'Profile User',
-                user: null,
-                message: 'Người dùng không tồn tại hoặc đã bị xóa.',
-                type: 'danger'
-            });
+        const parts = request.parts();
+        const formData = {};
+        
+        
+        for await(const part of parts) {
+            if(part.file && part.filename){
+                try{
+                formData.avatar = await imageUpload(part, 'avatar-upload')
+                }catch(error){
+                    console.error('>>>Lỗi khi upload ảnh: ',error);
+                    return reply.status(400).send(error.message);
+                }
+            }else{
+                formData[part.fieldname] = part.value;
+            }
         }
 
-        await userService.updateUser(db, userId, {email, username});
-        return reply.redirect('/user');
+        const { email, username, password } = formData;
+
+        
+        
+        await userService.updateUser(db, userId, {
+            email: email,
+            username: username,
+            password: password,
+            avatarPath: formData.avatar||null
+
+        });
+        return reply.redirect(`/user/profile-user/${userId}`);
     } catch (error) {
         console.error('>>> Lỗi khi cập nhật người dùng:', error);
         return reply.render('pages/updateUserView', {
@@ -152,12 +174,17 @@ const handleDeleteUser = async (req, rep) => {
             );
         }
 
-        
-        const result = userService.deleteAvatar(user.avatarPath);
+        userService.deleteAvatar(user.avatarPath);
 
-        console.log(result)
         await userService.deleteUser(db, userId);
-        return rep.redirect('/user');
+        const query = req.query;
+
+        // // Chuyển thành chuỗi query string
+        const qs = querystring.stringify(query);
+
+        // Redirect về trang user kèm query string giữ nguyên
+        const redirectUrl = `/user${qs ? '?' + qs : ''}`;
+        return rep.redirect(redirectUrl);
     } catch (error) {
         console.error(">>>Lỗi xóa người dùng", error);
         throw error;

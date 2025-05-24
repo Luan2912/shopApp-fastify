@@ -1,9 +1,15 @@
 const shopApp = require('fastify')({logger: true});
 const configEngine = require('./configs/configEngine.js');
+const pagination = require('./middlewares/pagination.js');
+const filterUser = require('./middlewares/filterMiddlewares/filterUser.js');
+
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3001;
 const MONGO_URL = process.env.MONGO_URL;
+
+shopApp.register(pagination);
+shopApp.register(filterUser)
 
 // Đăng ký MongoDB
 shopApp
@@ -22,12 +28,11 @@ shopApp
             request.db = shopApp.mongo.db;
         });
 
+        
+
         shopApp.register(require('@fastify/formbody'));
         shopApp.register(require('@fastify/multipart'), {
             addToBody: true, // Thêm dữ liệu form vào req.body
-            limits: {
-                fileSize: 10 * 1024 * 1024 // Giới hạn dung lượng file (10MB)
-            }
         });
         shopApp.register(require('./routes/web'));
 

@@ -100,7 +100,7 @@ h1 {
     display: inline-block;
     
 }
-
+/*
 .custom-file-upload {
     display: inline-block;
     padding: 2px 10px;
@@ -116,8 +116,6 @@ h1 {
 .custom-file-upload:hover {
     background-color: #0056b3;
 }
+*/
 
 
-input[type="file"] {
-display: none;
-}
