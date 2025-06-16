@@ -1,6 +1,6 @@
 const fp = require('fastify-plugin');
 
-async function paginationMiddleware(fastify, options) {
+async function paginationMiddleware(fastify) {
     fastify.addHook('preHandler', async (req, rep) => {
         let { page = 1, limit = 10 } = req.query;
 

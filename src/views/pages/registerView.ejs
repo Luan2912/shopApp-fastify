@@ -10,34 +10,135 @@
       <i class="fas fa-user-plus fa-3x text-primary"></i>
       <h4 class="mt-2">Tạo tài khoản mới</h4>
     </div>
-    <form>
-      <div class="mb-3">
-        <label for="fullname" class="form-label">Họ và tên</label>
-        <input type="text" class="form-control" id="fullname" placeholder="Nguyễn Văn A" required>
-      </div>
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" placeholder="example@gmail.com" required>
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Mật khẩu</label>
-        <input type="password" class="form-control" id="password" placeholder="••••••••" required>
-      </div>
-      <div class="mb-3">
-        <label for="confirmPassword" class="form-label">Nhập lại mật khẩu</label>
-        <input type="password" class="form-control" id="confirmPassword" placeholder="••••••••" required>
-      </div>
-      <div class="form-check mb-3">
-        <input class="form-check-input" type="checkbox" id="agree" required>
-        <label class="form-check-label" for="agree">
-          Tôi đồng ý với <a href="#" class="text-primary text-decoration-none">Điều khoản & Chính sách</a>
-        </label>
-      </div>
+    <form method="post" action="/register" enctype="multipart/form-data">
+       <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="email"
+                            name="email"
+                            value="<%= data.email%>"
+                            placeholder="Enter Email"
+                            required="required"/>
+                        <div id="emailHelp" class="form-text">
+                            We'll never share your email with anyone else.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="username"
+                            name="username"
+                            value="<%= data.username%>"
+                            placeholder="Enter username"
+                            required="required"/>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            name="password"
+                            placeholder="Enter password"
+                            required="required"/>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            placeholder="Please confirm your password"
+                            required="required"/>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phoneNumber" class="form-label">Phone Number</label>
+                        <input
+                            type="tel"
+                            class="form-control"
+                            id="phoneNumber"
+                            name="phoneNumber"
+                            value="<%= data.phoneNumber%>"
+                            placeholder="Enter phone number"
+                            required="required"/>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="age" class="form-label">Age</label>
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    id="age"
+                                    name="age"
+                                    min="1"
+                                    max="120"
+                                    value="<%= data.age%>"
+                                    placeholder="Enter age"
+                                    required="required"/>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select name="gender" id="gender" class="form-control">
+                                    <option value="">-- Chọn giới tính --</option>
+                                    <option value="male" <%= data.gender === 'male' ? 'selected' : '' %>>Nam</option>
+                                    <option value="female" <%= data.gender === 'female' ? 'selected' : '' %>>Nữ</option>
+                                    <option value="other" <%= data.gender === 'other' ? 'selected' : '' %>>Khác</option>
+
+                                </select>
+                            </div>
+
+                           
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="address"
+                            name="address"
+                            value="<%= data.address%>"
+                            placeholder="Enter Address"
+                            required="required"/>
+
+                    </div>
+                    
+                    <% if (messageErr && messageErr.length > 0) { %>
+                        <div class="alert alert-warning" role="alert">
+                            <ul class="mb-0">
+                                <% messageErr.forEach(function(err) { %>
+                                    <li><%= err %></li>
+                                    <% }); %>
+                                        <li>Vui lòng kiểm tra và nhập lại thông tin!</li>
+                                    </ul>
+                                </div>
+                            <% } %>
+
+                            <% if (messageSuccess) { %>
+                        <div class="alert alert-success" role="alert">
+                          <span><%=messageSuccess%></span>
+                                </div>
+                            <% } %>
+
+      
       <button type="submit" class="btn btn-primary w-100">Đăng ký</button>
     </form>
 
     <div class="text-center mt-4">
-      <p>Đã có tài khoản? <a href="login.html" class="text-primary">Đăng nhập ngay</a></p>
+      <p>Đã có tài khoản? <a href="/login" class="text-primary">Đăng nhập ngay</a></p>
     </div>
   </div>
 

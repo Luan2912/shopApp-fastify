@@ -120,14 +120,6 @@
     margin-right: 4px;
 }
 
-.goto-page input[type="number"] {
-    width: 80px;
-    padding: 6px 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    text-align: center;
-    font-size: 16px;
-}
 
 .goto-page button {
     background-color: #198754;
@@ -142,4 +134,27 @@
 
 .goto-page button:hover {
     background-color: #146c43;
+}
+
+.input-gotoPage{
+    width: 25px;
+    height: 25px;
+    padding: 0px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.input-gotoPage::-webkit-outer-spin-button,
+
+/* bỏ nút tăng giảm Chrome, Safari, Edge, Opera */
+.input-gotoPage::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* bỏ nút tăng giảm Firefox */
+.input-gotoPage {
+    -moz-appearance: textfield;
 }

@@ -1,3 +1,4 @@
+
 const path = require("path");
 const fastifyView = require("@fastify/view");
 const fastifyStatic = require("@fastify/static");
@@ -12,8 +13,9 @@ const configEngine = async (fastify) => {
     root: path.join(__dirname, "../views"),
     propertyName: "render",
     viewExt: "ejs",
-    layout: "layout"
+    layout: 'layout'
   });
+
 
   // Cấu hình static file
   fastify.register(fastifyStatic, {

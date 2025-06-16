@@ -1,13 +1,29 @@
 const {ObjectId} = require("mongodb");
 const fs = require('fs');
 const path = require('path');
+const {deleteImageFromDisk} = require("../middlewares/handleUploadImage")
+const {randomBytes, createHmac} = require("crypto")
+const { getPaginationInfo } = require('../utils/paginationUtil');
+
 
 const createNewUser = async (db, userData) => {
     try {
-        const {email, username, password, avatarPath} = userData;
+        const {email, username, password,phoneNumber,age,gender,address,role, avatarPath} = userData;
         const userCollection = db.collection('users');
+        const checkData = await userCollection.findOne({$or: [{ email }, { username }]});
+        if(checkData){
+            return {
+                success: false,
+                messageErr: 'Email or username already exists',
+            }
+        }
+
+        const salt =  randomBytes(16).toString('hex');
+        const hmac = createHmac('sha256', salt);
+        const hpass = hmac.update(password).digest('hex');
+
         const result = await userCollection.insertOne(
-            {email, username, password, avatarPath}
+            {email, username, salt, hpass,phoneNumber,age,gender,address,role, avatarPath, createdAt: new Date()}
         );
 
         return {success: true, userId: result.insertedId};
@@ -17,27 +33,18 @@ const createNewUser = async (db, userData) => {
     }
 };
 
+
 const getUsers = async (req) => {
     try {
         const db = req.db;
         const userCollection = db.collection('users');
 
-        
-        let {page, limit} = req.pagination;
-        let filter = req.filterUser||{};
+        let { page, limit } = req.pagination;
+        let filter = req.filterUser || {};
 
         const totalDocs = await userCollection.countDocuments(filter);
-        let limitDoc = Math.min(limit, totalDocs || limit);
 
-
-        let totalPage = Math.ceil(totalDocs / limit) || 1;
-        let currentPage = Math.max(1, Math.min(page, totalPage));
-
-        const nextPage = currentPage < totalPage ? currentPage + 1 : null;
-        const prevPage = currentPage > 1 ? currentPage - 1 : null;
-
-
-        const skip = (currentPage - 1) * limit;
+        const { skip, limitDoc, pagination } = getPaginationInfo(totalDocs, page, limit);
 
         const users = await userCollection
             .find(filter)
@@ -47,14 +54,7 @@ const getUsers = async (req) => {
 
         return {
             users,
-            pagination: {
-                currentPage,
-                limit: limitDoc,
-                totalDocs,
-                totalPage,
-                nextPage,
-                prevPage
-            }
+            pagination
         };
     } catch (err) {
         console.error('>>> Lỗi khi lấy tất cả người dùng:', err);
@@ -62,29 +62,63 @@ const getUsers = async (req) => {
     }
 };
 
+
+
 const getUserById = async (db, userId) => {
     try {
         const userCollection = db.collection('users');
-        return await userCollection.findOne({_id: new ObjectId(userId)});
+        const userExist = await userCollection.findOne({ _id: new ObjectId(userId) });
+
+        if(!userExist){
+            return {
+                success: false,
+                messageErr: 'Người dùng không tồn tại!'
+            }
+        }
+
+        return {
+            success: true,
+            userExist
+        }
     } catch (err) {
         console.error('>>> Lỗi khi lấy người dùng theo ID:', err);
         throw err;
     }
 };
 
-const updateUser = async (db, userId, data) => {
+const updateUser = async (db, userId, updateData) => {
     try {
         const userCollection = db.collection('users');
-        const updateData = {
-            email: data.email,
-            username: data.username,
-            avatarPath: data.avatarPath || null,
-            updatedAt: new Date()
-        };
+        const condition = [];
+
+        if (updateData.email) {
+            condition.push({ email: updateData.email });
+        }
+        if (updateData.username) {
+            condition.push({ username: updateData.username });
+        }
+
+        // Nếu có ít nhất 1 trong 2 trường được update
+        if (condition.length > 0) {
+            const existingUser = await userCollection.findOne({
+                $or: condition,
+                _id: { $ne: new ObjectId(userId) }, // loại trừ chính người dùng đang cập nhật
+            });
+
+            if (existingUser) {
+                const conflictField = (existingUser.email === updateData.email) ? 'Email' : 'Username';
+                return {
+                    success: false,
+                    messageErr: `${conflictField} đã được sử dụng bởi người dùng khác.`,
+                };
+            }
+        }
 
         return await userCollection.updateOne({
             _id: new ObjectId(userId)
         }, {$set: updateData});
+
+
     } catch (error) {
         console.error('>>> Lỗi khi cập nhật người dùng:', error);
         throw error;
@@ -108,17 +142,7 @@ const deleteUser = async (db, userID) => {
 
 const deleteAvatar = (avatarPath) => {
     try {
-        if (avatarPath) {
-            const filePath = path.join(__dirname, '..', 'public', avatarPath);
-            if (fs.existsSync(filePath)) {
-
-                fs.unlinkSync(filePath); // Xóa tệp ảnh
-                console.log(`Avatar deleted: ${filePath}`);
-                return {avatarPath: filePath, message: "Xóa avatar thành công."};
-            } else {
-                console.log(`Avatar không tồn tại: ${filePath}`);
-            }
-        }
+       deleteImageFromDisk(avatarPath)
 
     } catch (error) {
         console.error('>>> Lỗi xóa avatar người dùng: ', error);

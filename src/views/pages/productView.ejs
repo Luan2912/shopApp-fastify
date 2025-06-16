@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="public/css/product.css">
-<%- include('partials/navAdminView') %>
+<%- include('partials/navAdminView', { page: 'Manage-Product', action: '/manage-product'}) %>
 
     <div class="container">
 
@@ -10,67 +10,144 @@
                     <th scope="col">#</th>
                     <th>Ảnh</th>
                     <th scope="col">Tên Sách</th>
-                    <th scope="col">Thể Loại</th>
                     <th scope="col">Tác Giả</th>
-                    <th scope="col">Mô Tả</th>
-                    <th scope="col">Trạng thái</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Giá</th>
+                    <th scope="col">Danh Mục</th>
+                    <th scope="col">Nhà Xuất bản</th>
+                    <th scope="col">Trạng Thái</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
+                <% products.forEach((product, index) => { %>
+                    <tr>
+                        <td><%= (index + 1)+pagination.limit*(pagination.currentPage-1) %></td>
+                        <td>
+                            <img src="/public/<%=product.thumbnailProductPath%>" alt=""></td>
+                        <td><%=product.title %></td>
+                        <td><%=product.author%></td>
+                        <td><%=product.price %></td>
+                        <td>
+                            <% if (Array.isArray(product.categoryNames)) { %>
+                                <% product.categoryNames.forEach(name => { %>
+                                    <span class="badge bg-info text-dark"><%= name %></span>
+                                    <% }) %>
+                                    <% } else { %>
+                                        <%= product.categoryName %>
+                                    <% } %>
+                                </td>
 
-                <tr>
-                    <td>i</td>
-                    <td><img src="public/uploads/dac-nhan-tam-1.jpg" alt=""></td>
-                    <td>dddds</td>
-                    <td>dsds</td>
-                    <td>dsds</td>
-                    <td><p>vfvbjsdfgvbfjdugfnjsuygdhbuytfgvhutfghjtrfghiuytfghuytrfghyttg</p></td>
-                    <td><span class="badge bg-success">Còn hàng</span></td>
-                    <td>
-                        <a href="#" class="btn btn-warning">Edit</a>
-                        <form action="#" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </td>
+                                <td><%=product.publisher %></td>
 
-                </tr>
+                                <td>
+                                    <% if(product.status){ %>
+                                        <span class="badge bg-success">Còn hàng</span>
+                                    <% } else{ %>
+                                        <span class="badge bg-warning">Hết hàng</span>
+                                    <% } %>
 
-                                <tr>
-                    <td>i</td>
-                    <td><img src="public/uploads/dac-nhan-tam-1.jpg" alt=""></td>
-                    <td>dddnfshfsfsuuds</td>
-                    <td>dsds</td>
-                    <td>dsds</td>
-                    <td><p>vfvbjsdfgvbfjdugfnjsuygdhbuytfgvhutfghjtrfghiuytfghuytrfghyttg</p></td>
-                    <td><span class="badge bg-success">Còn hàng</span></td>
-                    <td>
-                        <a href="#" class="btn btn-warning">Edit</a>
-                        <form action="#" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </td>
+                                </td>
+                                <td>
+                                    <a href="#" class="btn btn-warning">Edit</a>
+                                    <form action="#" method="POST" style="display:inline;">
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </td>
 
-                </tr>
+                            </tr>
+                            <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
 
-                                <tr>
-                    <td>i</td>
-                    <td><img src="public/uploads/dac-nhan-tam-1.jpg" alt=""></td>
-                    <td>dddds</td>
-                    <td>dsds</td>
-                    <td>dsdghjksj</td>
-                    <td><p>vfvbjsdfgvbfjdugfnjsuygdhbuytfgvhutfghjtrfghiuytfghfghsffvbjfdsdfghjdscvhjuytresdfghjsdfghjjhgfđfghjuytrfghyttg</p></td>
-                    <td><span class="badge bg-success">Còn hàng</span></td>
-                    <td>
-                        <a href="#" class="btn btn-warning">Edit</a>
-                        <form action="#" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </td>
+                    <div class="wrapper-pagination">
+                        <ul class="pagination">
+                            <% if (pagination.prevPage) { %>
+                                <li>
+                                    <a
+                                        href="?<%= new URLSearchParams({ ...query, page: pagination.prevPage, limit: pagination.limit }).toString() %>">Prev</a>
+                                </li>
+                            <% } %>
 
-                </tr>
+                            <% if (pagination.currentPage > 3) { %>
+                                <li>
+                                    <a
+                                        href="?<%= new URLSearchParams({ ...query, page: 1, limit: pagination.limit }).toString() %>">1</a>
+                                </li>
+                                <% if (pagination.currentPage > 4) { %>
+                                    <li>
+                                        <span>...</span></li>
+                                <% } %>
+                            <% } %>
 
-            </tbody>
-        </table>
-    </div>
+                            <% for (let i = pagination.currentPage - 1; i <= pagination.currentPage + 1; i++) {
+                if (i > 0 && i <= pagination.totalPage) { %>
+                                <li class="<%= i === pagination.currentPage ? 'active' : '' %>">
+                                    <a
+                                        href="?<%= new URLSearchParams({ ...query, page: i, limit: pagination.limit }).toString() %>"><%= i %></a>
+                                </li>
+                                <% }} %>
 
+                                    <% if (pagination.currentPage < pagination.totalPage - 2) { %>
+                                        <% if (pagination.currentPage < pagination.totalPage - 3) { %>
+                                            <li>
+                                                <span>...</span></li>
+                                        <% } %>
+                                        <li>
+                                            <a
+                                                href="?<%= new URLSearchParams({ ...query, page: pagination.totalPage, limit: pagination.limit }).toString() %>"><%= pagination.totalPage %></a>
+                                        </li>
+                                    <% } %>
+
+                                    <% if (pagination.nextPage) { %>
+                                        <li>
+                                            <a
+                                                href="?<%= new URLSearchParams({ ...query, page: pagination.nextPage, limit: pagination.limit }).toString() %>">Next</a>
+                                        </li>
+                                    <% } %>
+                                </ul>
+
+                                <div class="goto-page" style="margin-top: 20px; text-align: center;">
+                                    <form id="gotoForm" action="/manage-product" method="get">
+                                        <% for (let key in query) {
+                                if (key !== 'page' && key !== 'limit') { %>
+                                            <input type="hidden" name="<%= key %>" value="<%= query[key] %>">
+                                            <% }} %>
+
+                                                <label for="gotoPage">Trang:</label>
+                                                <input
+                                                    class="input-gotoPage"
+                                                    type="number"
+                                                    id="gotoPage"
+                                                    name="page"
+                                                    min="1"
+                                                    max="<%= pagination.totalPage %>"
+                                                    value="<%= pagination.currentPage %>"
+                                                    required="required">
+                                                <span>/<%= pagination.totalPage %></span>
+                                                <input type="hidden" name="limit" value="<%= pagination.limit || 10 %>">
+                                                <button type="submit">Đi</button>
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <% const queryString = new URLSearchParams(query).toString(); %>
+                                    <% if (queryString === '') { %>
+                                        <a
+                                            class="btn btn-create-user btn-success"
+                                            href="/manage-product/create-product"
+                                            role="button"
+                                            title="Create Book">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </a>
+                                    <% } else{ %>
+                                        <a
+                                            class="btn btn-create-user btn-success"
+                                            href="/manage-product/create-product?<%= new URLSearchParams(query).toString()%>"
+                                            role="button"
+                                            title="Create New User">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </a>
+                                    <% } %>

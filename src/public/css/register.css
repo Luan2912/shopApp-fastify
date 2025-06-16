@@ -7,7 +7,7 @@ body {
 }
 
 .register-card {
-  max-width: 500px;
+  width: 400px;
   margin: auto;
   margin-top: 60px;
   padding: 35px;

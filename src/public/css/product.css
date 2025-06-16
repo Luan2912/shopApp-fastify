@@ -1,46 +1,152 @@
-  .table {
-            background-color: #ffffff;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            text-align: center;
-        }
+.table {
+    background-color: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
 
-        .table th {
-            background-color: #28a745;
-            color: #fff;
-            text-align: center;
-        }
+.table th {
+    background-color: #28a745;
+    color: #fff;
+    text-align: center;
+}
 
-        .table td {
-            vertical-align: middle;
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            padding: 10px;
-        }
+.table td {
+    vertical-align: middle;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 10px;
+}
 
-        .table .btn-warning {
-            background-color: #ffc107;
-            border: none;
-            transition: background-color 0.3s;
-        }
+.table .btn-warning {
+    background-color: #ffc107;
+    border: none;
+    transition: background-color 0.3s;
+}
 
-        .table .btn-warning:hover {
-            background-color: #e0a800;
-        }
+.table .btn-warning:hover {
+    background-color: #e0a800;
+}
 
-        .table .btn-danger {
-            transition: background-color 0.3s;
-        }
+.table .btn-danger {
+    transition: background-color 0.3s;
+}
 
-        .table .btn-danger:hover {
-            background-color: #c82333;
-        }
+.table .btn-danger:hover {
+    background-color: #c82333;
+}
 
-        .table img {
-            width: 100px;
-            height: auto;
-            border-radius: 5px;
-        }
+.table img {
+    width: 100px;
+    height: auto;
+    border-radius: 5px;
+}
+
+.wrapper-pagination {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.pagination {
+    display: inline-flex;
+    list-style: none;
+    padding: 0;
+    background: #f8f9fa;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.pagination li {
+    margin: 0;
+}
+
+.pagination a,
+.pagination span {
+    display: inline-block;
+    padding: 10px 16px;
+    text-decoration: none;
+    background-color: #198754;
+    color: white;
+    transition: background-color 0.2s;
+}
+
+.pagination a:hover,
+.pagination li.active a {
+    background-color: #146c43;
+}
+
+.goto-page {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.goto-page form {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8f9fa;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.goto-page label {
+    font-weight: 500;
+    color: #333;
+    margin-right: 4px;
+}
+
+.goto-page button {
+    background-color: #198754;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.goto-page button:hover {
+    background-color: #146c43;
+}
+
+.input-gotoPage {
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    text-align: center;
+    font-size: 16px;
+}
+.input-gotoPage::-webkit-outer-spin-button,
+
+/* bỏ nút tăng giảm Chrome, Safari, Edge, Opera */
+.input-gotoPage::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* bỏ nút tăng giảm Firefox */
+.input-gotoPage {
+    -moz-appearance: textfield;
+}
+
+
+.btn-create-user {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 24px;
+}

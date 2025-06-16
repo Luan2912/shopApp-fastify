@@ -1,16 +1,25 @@
 const shopApp = require('fastify')({logger: true});
 const configEngine = require('./configs/configEngine.js');
+require("dotenv").config();
 const pagination = require('./middlewares/pagination.js');
 const filterUser = require('./middlewares/filterMiddlewares/filterUser.js');
+const filterProduct = require('./middlewares/filterMiddlewares/filterProduct.js');
+const optionalAuth = require('./middlewares/optionalAuth')
 
-require("dotenv").config();
+
+shopApp.register(require("@fastify/cookie"), {
+    hook: "onRequest"
+});
+
 
 const PORT = process.env.PORT || 3001;
 const MONGO_URL = process.env.MONGO_URL;
 
 shopApp.register(pagination);
-shopApp.register(filterUser)
+shopApp.register(filterUser);
+shopApp.register(filterProduct);
 
+shopApp.addHook("preHandler", optionalAuth);
 // Đăng ký MongoDB
 shopApp
     .register(require('@fastify/mongodb'), {
@@ -27,8 +36,6 @@ shopApp
         shopApp.addHook('onRequest', async (request, reply) => {
             request.db = shopApp.mongo.db;
         });
-
-        
 
         shopApp.register(require('@fastify/formbody'));
         shopApp.register(require('@fastify/multipart'), {

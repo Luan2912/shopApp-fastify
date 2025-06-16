@@ -1,0 +1,134 @@
+<link rel="stylesheet" href="/public/css/create-product.css"/>
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+
+        <div class="col-12 col-md-6">
+            <div class="create-book m-5">
+                <h2>
+                    <i class="fas fa-book"></i>
+                    Create Book</h2>
+
+                <form
+                    method="POST"
+                    action="/manage-product/create-product"
+                    enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label>Tiêu đề:</label>
+                        <input
+                            type="text"
+                            name="title"
+                            class="form-control"
+                            value="<%= product?.title || '' %>"
+                            required="required">
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Tác giả:</label>
+                        <input
+                            type="text"
+                            name="author"
+                            class="form-control"
+                            value="<%= product?.author || '' %>"
+                            required="required">
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label>Nhà xuất bản:</label>
+                        <input
+                            type="text"
+                            name="publisher"
+                            class="form-control"
+                            value="<%= product?.publisher || '' %>">
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-md-4">
+                                
+                    <div>
+                        <label>Giá:</label>
+                        <input
+                            type="number"
+                            name="price"
+                            class="form-control"
+                            value="<%= product?.price || '' %>"
+                            placeholder="VNĐ"
+                            required="required">
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Trạng thái:</label>
+                        <select name="status" class="form-select">
+                            <option value="true" <%= product?.status === true ? 'selected' : '' %>>Còn hàng</option>
+                            <option value="false" <%= product?.status === false ? 'selected' : '' %>>Hết hàng</option>
+                        </select>
+                    </div>
+                    </div>
+                    
+                    <div class="col-md-8">
+                        <label for="categories" class="form-label">Thể Loại:</label>
+                        <select id="categories" name="categories[]" class="form-select" multiple required size="4">
+                            <% categoriesList.forEach(cat => { %>
+                                <% const isSelected = product?.categories?.some(id => id.toString() === cat._id.toString()); %>
+                                <option value="<%= cat._id %>" <%= isSelected ? 'selected' : '' %>>
+                                <%= cat.name %>
+                                </option>
+
+                            <% }) %>
+                        </select>
+                        <div class="form-text">Giữ Ctrl (Windows) hoặc Cmd (Mac) để chọn nhiều danh mục.</div>
+               
+                    </div>
+                </div>
+
+                    
+                        
+
+
+                    <div class="mb-3">
+                        <label>Mô tả:</label>
+                        <textarea name="description" class="form-control"><%= product?.description || '' %></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Ảnh đại diện:</label>
+                        <input type="file" name="thumbnailProduct" class="form-control">
+                        <!-- <% if (product?.thumbnailProductPath) { %>
+                            <img src="/public/<%= product.thumbnailProductPath %>" width="100"/>
+                        <% } %> -->
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Ảnh chi tiết:</label>
+                        <input
+                            type="file"
+                            name="imagesProductPath"
+                            class="form-control"
+                            multiple="multiple">
+                        <% if (product?.imagesProductPath?.length > 0) { %>
+                            <% product.imagesProductPath.forEach(img => { %>
+                                <img src="/public/<%= img %>" width="80" style="margin-right: 10px;"/>
+                                <% }) %><% } %>
+                            </div>
+
+                          <div class="d-flex justify-content-between">
+                                <button type="submit" class="btn btn-success">Create</button>
+                                <a
+                                    href="/manage-product"
+                                    class="btn back-to-list btn-secondary">Back to Manage Product</a>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+                <div class="col-md-3"></div>
+            </div>
+        </div>
+        

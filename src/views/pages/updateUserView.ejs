@@ -3,82 +3,172 @@
     <div class="row justify-content-center">
         <div class="col-md-10">
             <h1 class="text-center mb-4">Profile User</h1>
-
-            <!-- Avatar User -->
-            <% if (user && user.avatarPath) { %>
-                <div class="text-center mb-4">
-                    <img
-                        src="/public/<%= user.avatarPath %>"
-                        alt="User Avatar"
-                        class="rounded-circle"
-                        width="150"
-                        height="150">
-                </div>
-            <% } else { %>
-                <div class="text-center mb-4">
-                    <img
-                        src="/public/uploads/avatar-upload/default-avatar-profile.png"
-                        alt="Default Avatar"
-                        class="rounded-circle"
-                        width="150"
-                        height="150">
-                </div>
-            <% } %>
-
-            <% if (typeof message !== 'undefined') { %>
-                <div class="alert alert-<%= type || 'info' %> text-center">
-                    <%= message %>
-                </div>
-            <% } %>
-
             <% if (user) { %>
                 <form
                     method="POST"
-                    action="/user/profile-user/<%= user._id %>"
+                    action="/user/profile-user/<%= user._id %><%=query? '?'+ query:''%>"
                     enctype="multipart/form-data">
-                    <div class="mb-3">
+                    <!-- Avatar User -->
+                    <div class="wrapper-avatar position-relative text-center mb-4">
+                        <img
+                            id="avatarImage"
+                            src="/public/<%= user.avatarPath || 'uploads/avatar-upload/default-avatar-profile.png' %>"
+                            alt="User Avatar"
+                            class="rounded-circle avatar-img"
+                            width="150"
+                            height="150">
+
+                        <div class="avatar-overlay">
+
+                            <label for="avatarInput" class="btn-option">Thay đổi</label>
+                            <input type="file" name="avatar" id="avatarInput" accept="image/*" hidden="hidden">
+                        </div>
+                    </div>
+
+
+                    <div class="text-center mb-4" style="font-size: 1.5rem;">
+                        <strong><%=user.username%></strong>
+                    </div>
+
+                    <div class="mb-3 editable-group">
                         <label for="email" class="form-label">Email</label>
+
+                        <div
+                            class="form-control d-flex justify-content-between align-items-center view-mode">
+                            <span class="editable-text"><%= user.email %></span>
+                            <a class="btn-edit" role="button">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        </div>
+
                         <input
                             type="email"
-                            class="form-control"
-                            id="email"
+                            class="form-control d-none edit-mode"
                             name="email"
                             value="<%= user.email %>"
                             required="required">
                     </div>
 
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
+                    <div class="mb-3 editable-group">
+                        <label for="username" class="form-label">UserName</label>
+
+                        <div
+                            class="form-control d-flex justify-content-between align-items-center view-mode">
+                            <span class="editable-text"><%= user.username %></span>
+                            <a class="btn-edit" role="button">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        </div>
+
                         <input
                             type="text"
-                            class="form-control"
-                            id="username"
+                            class="form-control d-none edit-mode"
                             name="username"
                             value="<%= user.username %>"
                             required="required">
                     </div>
 
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
+                    <div class="mb-3 editable-group">
+                        <label for="phoneNumber" class="form-label">Phone Numbers</label>
+
+                        <div
+                            class="form-control d-flex justify-content-between align-items-center view-mode">
+                            <span class="editable-text"><%= user.phoneNumber %></span>
+                            <a class="btn-edit" role="button">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        </div>
+
                         <input
-                            type="password"
-                            class="form-control"
-                            id="password"
-                            name="password"
-                            placeholder="Leave blank if not changing">
+                            type="tel"
+                            class="form-control d-none edit-mode"
+                            name="phoneNumber"
+                            value="<%= user.phoneNumber %>"
+                            required="required">
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Avatar: </label>
-                        <div class="custom-file-upload-wrapper">
-                            <!-- <label for="avatar" class="custom-file-upload">Chọn ảnh đại diện</label> -->
-                            <input type="file" id="avatar" name="avatar" accept="image/*">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="age" class="form-label">Age</label>
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    id="age"
+                                    name="age"
+                                    min="1"
+                                    max="120"
+                                    value="<%= user.age%>"
+                                    placeholder="Enter age"
+                                    required="required"/>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select name="gender" id="gender" class="form-control">
+                                    <option value="">-- Chọn giới tính --</option>
+                                    <option value="male" <%= user.gender === 'male' ? 'selected' : '' %>>Nam</option>
+                                    <option value="female" <%= user.gender === 'female' ? 'selected' : '' %>>Nữ</option>
+                                    <option value="other" <%= user.gender === 'other' ? 'selected' : '' %>>Khác</option>
+
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="role" class="form-label">Role</label>
+                                <select name="role" id="role" class="form-control">
+                                    <option value="">-- Quyền hạn --</option>
+                                    <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Quản trị viên</option>
+                                    <option value="customer" <%= user.role === 'customer' ? 'selected' : '' %>>Khách hàng</option>
+    
+                                </select>
+                            </div>
                         </div>
                     </div>
 
+                    <div class="mb-3 editable-group">
+                        <label for="address" class="form-label">Address</label>
+
+                        <div
+                            class="form-control d-flex justify-content-between align-items-center view-mode">
+                            <span class="editable-text"><%= user.address %></span>
+                            <a class="btn-edit" role="button">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                        </div>
+
+                        <input
+                            type="text"
+                            class="form-control d-none edit-mode"
+                            name="address"
+                            value="<%= user.address %>"
+                            required="required">
+                    </div>
+
+             <% if (messageErr && messageErr.length > 0) { %>
+    <div class="alert alert-<%= type || 'danger' %>">
+        <ul>
+            <% messageErr.forEach(function(msg) { %>
+                <li><%= msg %></li>
+            <% }); %>
+            <li>Vui lòng kiểm tra và nhập lại thông tin!</li>
+        </ul>
+    </div>
+<% } %>
+
+<% if (messageSuccess) { %>
+    <div class="alert alert-success">
+        <ul>
+            <li><%= messageSuccess %></li>
+        </ul>
+    </div>
+<% } %>
+
+
+
                     <div class="d-flex justify-content-between">
                         <button type="submit" class="btn btn-primary">Update</button>
-                        <a href="/user" class="btn btn-secondary">Back to List</a>
+                        <a href="/user<%=query!='' ?'?'+new URLSearchParams(query).toString():'' %>" class="btn btn-secondary">Back to List</a>
                     </div>
                 </form>
             <% } else { %>
@@ -86,9 +176,77 @@
                     Không tìm thấy người dùng để cập nhật.
                 </div>
                 <div class="text-center mt-3">
-                    <a href="/user" class="btn btn-secondary">Quay lại danh sách</a>
+                    <a  href="/user<%=query!='' ?'?'+new URLSearchParams(query).toString():'' %>" class="btn btn-secondary">Quay lại danh sách</a>
                 </div>
             <% } %>
         </div>
     </div>
 </div>
+
+<script> 
+       let isAvatarChanged = false;
+
+    // Bắt sự kiện đổi ảnh
+    const avatarInput = document.getElementById("avatarInput");
+    const avatarImage = document.getElementById("avatarImage");
+
+    avatarInput.addEventListener("change", function (event) {
+        const file = event.target.files[0];//Lấy file đầu tiên mà người dùng chọn
+        if (file) {
+            isAvatarChanged = true; // Đánh dấu là đã đổi ảnh
+
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                avatarImage.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Trước khi submit form, kiểm tra xem có đổi avatar không
+    document.querySelector("form").addEventListener("submit", function (e) {
+        if (!isAvatarChanged) {
+            // Nếu không đổi avatar, xóa input file khỏi DOM để không gửi lên server
+            avatarInput.parentNode.removeChild(avatarInput);
+        }
+    });
+
+    document
+        .querySelectorAll('.editable-group')
+        .forEach(group => {
+            const viewDiv = group.querySelector('.view-mode');
+            const editInput = group.querySelector('.edit-mode');
+            const textSpan = group.querySelector('.editable-text');
+            const btnEdit = group.querySelector('.btn-edit');
+
+            // Khi click vào nút edit
+            btnEdit.addEventListener('click', () => {
+                viewDiv
+                    .classList
+                    .add('d-none');
+                editInput
+                    .classList
+                    .remove('d-none');
+                editInput.focus();
+            });
+
+            // Khi blur (click ra ngoài) hoặc nhấn Enter
+            const saveAndToggle = () => {
+                textSpan.textContent = editInput.value; // cập nhật lại nội dung hiển thị
+                editInput
+                    .classList
+                    .add('d-none');
+                viewDiv
+                    .classList
+                    .remove('d-none');
+            };
+
+            editInput.addEventListener('blur', saveAndToggle);
+            editInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    editInput.blur(); // gọi blur để xử lý chung
+                }
+            });
+        });
+</script>

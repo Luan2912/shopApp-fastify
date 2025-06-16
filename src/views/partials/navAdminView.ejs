@@ -5,7 +5,7 @@
     <div class="container">
   
       <!-- Logo -->
-      <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="/">
         <i class="fas fa-book me-2"></i> BookNest
       </a>
   
@@ -21,14 +21,14 @@
         <!-- Menu trái -->
         <ul class="navbar-nav mx-auto">
           <li class="nav-item">
-            <a class="nav-link active" href="/user">Mange User</a>
+            <a class="nav-link <%=page==='Manage Users'? 'active' : '' %>" href="/user">Mange User</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="/manage-product" id="navbarDropdownMenuLink" 
+            <a class="nav-link dropdown-toggle <%=page==='Manage-Product'? 'active' : '' %>" href="/manage-product" id="navbarDropdownMenuLink" 
                role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Danh mục sách
             </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <ul class="dropdown-menu <%=page==='Manage-Product'? 'active' : '' %>" aria-labelledby="navbarDropdownMenuLink">
               <li><a class="dropdown-item" href="#">Tiểu thuyết</a></li>
               <li><a class="dropdown-item" href="#">Kỹ năng sống</a></li>
               <li><a class="dropdown-item" href="#">Thiếu nhi</a></li>
@@ -47,8 +47,8 @@
   
         <!-- Form tìm kiếm + giỏ hàng + đăng nhập -->
         <div class="d-flex align-items-center gap-3">
-          <form class="d-flex" role="search">
-            <input class="form-control form-control-sm me-2" type="search" placeholder="Tìm sách..." aria-label="Search">
+          <form method="get" action=<%=action%> class="d-flex" role="search">
+            <input class="form-control form-control-sm me-2" name="keyword" type="search" placeholder="Tìm kiếm" aria-label="Search">
             <button class="btn btn-light btn-sm" type="submit">Tìm</button>
           </form>
   

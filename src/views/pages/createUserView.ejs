@@ -1,4 +1,5 @@
-<link rel="stylesheet" href="/public/css/create-user.css">
+<link rel="stylesheet" href="/public/css/create-user.css"/>
+
 <div class="container">
     <div class="row">
         <div class="col-md-3"></div>
@@ -6,46 +7,148 @@
         <div class="col-12 col-md-6">
             <div class="create-user m-5">
                 <h2>Create User</h2>
-                <form method="POST" action="/user/create-user" enctype="multipart/form-data">
+                <form
+                    method="POST"
+                    action="/user/create-user<%=query? '?'+ query:''%>"
+                    enctype="multipart/form-data">
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter Email" required>
-                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="email"
+                            name="email"
+                            value="<%= data.email%>"
+                            placeholder="Enter Email"
+                            required="required"/>
+                        <div id="emailHelp" class="form-text">
+                            We'll never share your email with anyone else.
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="username"
+                            name="username"
+                            value="<%= data.username%>"
+                            placeholder="Enter username"
+                            required="required"/>
                     </div>
 
                     <div class="mb-3">
                         <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="password"
+                            name="password"
+                            placeholder="Enter password"
+                            required="required"/>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">Confirm Password</label>
+                        <input
+                            type="password"
+                            class="form-control"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            placeholder="Please confirm your password"
+                            required="required"/>
                     </div>
 
                     <div class="mb-3">
                         <label for="phoneNumber" class="form-label">Phone Number</label>
-                        <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="Enter phone number" required>
+                        <input
+                            type="tel"
+                            class="form-control"
+                            id="phoneNumber"
+                            name="phoneNumber"
+                            value="<%= data.phoneNumber%>"
+                            placeholder="Enter phone number"
+                            required="required"/>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="age" class="form-label">Age</label>
+                                <input
+                                    type="number"
+                                    class="form-control"
+                                    id="age"
+                                    name="age"
+                                    min="1"
+                                    max="120"
+                                    value="<%= data.age%>"
+                                    placeholder="Enter age"
+                                    required="required"/>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="gender" class="form-label">Gender</label>
+                                <select name="gender" id="gender" class="form-control">
+                                    <option value="">-- Chọn giới tính --</option>
+                                    <option value="male" <%= data.gender === 'male' ? 'selected' : '' %>>Nam</option>
+                                    <option value="female" <%= data.gender === 'female' ? 'selected' : '' %>>Nữ</option>
+                                    <option value="other" <%= data.gender === 'other' ? 'selected' : '' %>>Khác</option>
+
+                                </select>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="role" class="form-label">Role</label>
+                                <select name="role" id="role" class="form-control">
+                                    <option value="">-- Quyền hạn --</option>
+                                    <option value="admin" <%= data.role === 'admin' ? 'selected' : '' %>>Quản trị viên</option>
+                                    <option value="customer" <%= data.role === 'customer' ? 'selected' : '' %>>Khách hàng</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="address" class="form-label">Address</label>
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="address"
+                            name="address"
+                            value="<%= data.address%>"
+                            placeholder="Enter Address"
+                            required="required"/>
+
                     </div>
 
                     <div class="mb-3">
                         <label for="avatar" class="form-label">Avatar</label>
-                        <input type="file" class="form-control" id="avatar" name="avatar">
+                        <input type="file" class="form-control" id="avatar" name="avatar"/>
                     </div>
 
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="checked">
-                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                    </div>
+                    <% if (messageErr && messageErr.length > 0) { %>
+                        <div class="alert alert-warning" role="alert">
+                            <ul class="mb-0">
+                                <% messageErr.forEach(function(err) { %>
+                                    <li><%= err %></li>
+                                    <% }); %>
+                                        <li>Vui lòng kiểm tra và nhập lại thông tin!</li>
+                                    </ul>
+                                </div>
+                            <% } %>
 
-                    <div class="d-flex justify-content-between">
-                        <button type="submit" class="btn btn-success">Create</button>
-                        <a href="/user" class="btn back-to-list btn-secondary">Back to List</a>
+                            <div class="d-flex justify-content-between">
+                                <button type="submit" class="btn btn-success">Create</button>
+                                <a
+                                    href="/user<%=query!='' ?'?'+new URLSearchParams(query).toString():'' %>"
+                                    class="btn back-to-list btn-secondary">Back to List</a>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
+
+                <div class="col-md-3"></div>
             </div>
         </div>
-
-        <div class="col-md-3"></div>
-    </div>
-</div>
